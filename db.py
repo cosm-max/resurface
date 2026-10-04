@@ -21,6 +21,12 @@ def init_db():
             image_path TEXT
         )
     ''')
+    
+    cursor.execute("PRAGMA table_info(items)")
+    columns = [info[1] for info in cursor.fetchall()]
+    if 'reminded' not in columns:
+        cursor.execute("ALTER TABLE items ADD COLUMN reminded INTEGER DEFAULT 0")
+
     conn.commit()
     conn.close()
 
@@ -32,8 +38,8 @@ def insert_item(item_data, image_path):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO items (
-            category, title, summary, date, time, location, action, expired, status, image_path
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            category, title, summary, date, time, location, action, expired, status, image_path, reminded
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
     ''', (
         category,
         item_data.get('title'),

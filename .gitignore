@@ -1,5 +1,5 @@
-   venv/
-   .env
-   *.db
-   __pycache__/
-   screenshots/
+venv/
+.env
+*.db
+__pycache__/
+screenshots/

@@ -2,3 +2,5 @@ watchdog
 google-genai
 pillow
 python-dotenv
+plyer
+apscheduler

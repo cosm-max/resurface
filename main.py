@@ -4,7 +4,9 @@ from watcher import start_watching
 from ui import AppUI
 from gemma_client import analyze_image
 from db import init_db, insert_item
+from scheduler import start_scheduler
 
+DEMO_MODE = True
 WATCH_FOLDER = "screenshots"
 
 def on_scan(image_path):
@@ -34,6 +36,8 @@ def main():
         ui.request_popup(image_path, on_scan, on_ignore)
         
     observer = start_watching(WATCH_FOLDER, new_screenshot_callback)
+    scheduler = start_scheduler(DEMO_MODE)
+    
     print(f"Watching '{WATCH_FOLDER}' for new screenshots...")
     print("Press Ctrl+C to exit.")
     
@@ -44,6 +48,7 @@ def main():
     finally:
         observer.stop()
         observer.join()
+        scheduler.shutdown()
 
 if __name__ == "__main__":
     main()
